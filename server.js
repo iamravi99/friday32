@@ -22,6 +22,27 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: '🚀 Mark32 Backend API is running!',
+    status: 'active',
+    endpoints: {
+      webseries: '/api/webseries',
+      stories: '/api/stories',
+      actresses: '/api/actresses',
+      desileaks: '/api/desileaks',
+      viral: '/api/viral',
+      admin: '/api/admin/login'
+    }
+  });
+});
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 // Simple admin login for now (Firebase Admin SDK not needed)
 app.post('/api/admin/login', (req, res) => {
   res.json({ message: 'Using Firebase Auth on frontend' });
