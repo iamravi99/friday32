@@ -82,6 +82,11 @@ const PORT = process.env.PORT || 5000;
 
 console.log("Trying to connect to:", process.env.MONGO_URI);
 
+if (!process.env.MONGO_URI) {
+  console.error("❌ MONGO_URI environment variable not set!");
+  process.exit(1);
+}
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ Connected to MongoDB Atlas");
@@ -91,4 +96,6 @@ mongoose.connect(process.env.MONGO_URI)
   })
   .catch((err) => {
     console.error("❌ MongoDB connection failed:", err.message);
+    console.error("Full error:", err);
+    process.exit(1);
   });
