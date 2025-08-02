@@ -77,6 +77,93 @@ app.use("/api/viral", (req, res, next) => {
 // ❌ REMOVE this duplicate route (already mounted above):
 // app.use("/api/leaks", require("./routes/DesiLeakRoutes"));
 
+// Add sample data function
+const addSampleData = async () => {
+  const Webseries = require('./models/Webseries');
+  const Story = require('./models/Story');
+  const UlluActress = require('./models/UlluActress');
+  const DesiLeak = require('./models/DesiLeak');
+  const Viral = require('./models/Viral');
+
+  try {
+    const webCount = await Webseries.countDocuments();
+    if (webCount === 0) {
+      await Webseries.insertMany([
+        {
+          title: "Bold Web Series 1",
+          content: "Exciting web series content",
+          image: "https://picsum.photos/300/400?random=1",
+          images: [{ url: "https://picsum.photos/300/400?random=1", position: "top" }]
+        },
+        {
+          title: "Hot Series 2", 
+          content: "Another exciting series",
+          image: "https://picsum.photos/300/400?random=2",
+          images: [{ url: "https://picsum.photos/300/400?random=2", position: "top" }]
+        }
+      ]);
+      console.log('✅ Added sample webseries');
+    }
+
+    const storyCount = await Story.countDocuments();
+    if (storyCount === 0) {
+      await Story.insertMany([
+        {
+          title: "Romantic Story",
+          desc: "Beautiful love story",
+          content: "Full story content",
+          image: "https://picsum.photos/300/400?random=3",
+          images: [{ url: "https://picsum.photos/300/400?random=3", position: "top" }]
+        }
+      ]);
+      console.log('✅ Added sample stories');
+    }
+
+    const actressCount = await UlluActress.countDocuments();
+    if (actressCount === 0) {
+      await UlluActress.insertMany([
+        {
+          name: "Beautiful Actress",
+          desc: "Popular actress",
+          image: "https://picsum.photos/300/400?random=4",
+          images: [{ url: "https://picsum.photos/300/400?random=4", position: "top" }]
+        }
+      ]);
+      console.log('✅ Added sample actresses');
+    }
+
+    const leakCount = await DesiLeak.countDocuments();
+    if (leakCount === 0) {
+      await DesiLeak.insertMany([
+        {
+          title: "Viral Content",
+          desc: "Trending content",
+          content: "Full content",
+          image: "https://picsum.photos/300/400?random=5",
+          images: [{ url: "https://picsum.photos/300/400?random=5", position: "top" }]
+        }
+      ]);
+      console.log('✅ Added sample desi leaks');
+    }
+
+    const viralCount = await Viral.countDocuments();
+    if (viralCount === 0) {
+      await Viral.insertMany([
+        {
+          title: "Viral Post",
+          desc: "Trending post",
+          content: "Viral content",
+          image: "https://picsum.photos/300/400?random=6",
+          images: [{ url: "https://picsum.photos/300/400?random=6", position: "top" }]
+        }
+      ]);
+      console.log('✅ Added sample viral content');
+    }
+  } catch (error) {
+    console.error('❌ Error adding sample data:', error);
+  }
+};
+
 // Start server after DB connects
 const PORT = process.env.PORT || 5000;
 
@@ -88,8 +175,9 @@ if (!process.env.MONGO_URI) {
 }
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
+  .then(async () => {
     console.log("✅ Connected to MongoDB Atlas");
+    await addSampleData();
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
