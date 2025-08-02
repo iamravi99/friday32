@@ -47,6 +47,33 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Debug endpoint to check data counts
+app.get('/debug', async (req, res) => {
+  try {
+    const Webseries = require('./models/Webseries');
+    const Story = require('./models/Story');
+    const UlluActress = require('./models/UlluActress');
+    const DesiLeak = require('./models/DesiLeak');
+    const Viral = require('./models/Viral');
+
+    const counts = {
+      webseries: await Webseries.countDocuments(),
+      stories: await Story.countDocuments(),
+      actresses: await UlluActress.countDocuments(),
+      desileaks: await DesiLeak.countDocuments(),
+      viral: await Viral.countDocuments()
+    };
+
+    res.json({ 
+      message: 'Database counts',
+      counts,
+      mongoUri: process.env.MONGO_URI ? 'Set' : 'Not Set'
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Admin login routes
 app.post('/api/admin/login', (req, res) => {
   res.json({ message: 'Using Firebase Auth on frontend' });
