@@ -16,7 +16,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://mark32-frontend.onrender.com', 'https://your-custom-domain.com']
+    ? ['https://webflikks.onrender.com', 'https://mark32-frontend.onrender.com']
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true
 }));
@@ -100,81 +100,116 @@ const addSampleData = async () => {
   const Viral = require('./models/Viral');
 
   try {
+    console.log('🔍 Checking for existing data...');
+    
     const webCount = await Webseries.countDocuments();
+    console.log(`Found ${webCount} webseries`);
+    
     if (webCount === 0) {
-      await Webseries.insertMany([
+      const sampleWebseries = [
         {
           title: "Bold Web Series 1",
-          content: "Exciting web series content",
-          image: "https://picsum.photos/300/400?random=1",
-          images: [{ url: "https://picsum.photos/300/400?random=1", position: "top" }]
+          content: "Exciting web series content with bold scenes",
+          images: [{ url: "https://picsum.photos/300/400?random=1", position: "top", caption: "Series 1" }],
+          rating: 8,
+          category: "Drama",
+          platform: "Ullu"
         },
         {
           title: "Hot Series 2", 
-          content: "Another exciting series",
-          image: "https://picsum.photos/300/400?random=2",
-          images: [{ url: "https://picsum.photos/300/400?random=2", position: "top" }]
+          content: "Another exciting series with romantic content",
+          images: [{ url: "https://picsum.photos/300/400?random=2", position: "top", caption: "Series 2" }],
+          rating: 9,
+          category: "Romance",
+          platform: "Alt Balaji"
+        },
+        {
+          title: "Steamy Series 3", 
+          content: "Third series with adult content",
+          images: [{ url: "https://picsum.photos/300/400?random=3", position: "top", caption: "Series 3" }],
+          rating: 7,
+          category: "Adult",
+          platform: "Kooku"
         }
-      ]);
-      console.log('✅ Added sample webseries');
+      ];
+      
+      const createdWebseries = await Webseries.insertMany(sampleWebseries);
+      console.log(`✅ Added ${createdWebseries.length} sample webseries`);
     }
 
     const storyCount = await Story.countDocuments();
     if (storyCount === 0) {
-      await Story.insertMany([
+      const sampleStories = [
         {
-          title: "Romantic Story",
-          desc: "Beautiful love story",
-          content: "Full story content",
-          image: "https://picsum.photos/300/400?random=3",
-          images: [{ url: "https://picsum.photos/300/400?random=3", position: "top" }]
+          title: "Romantic Night Story",
+          desc: "A beautiful love story",
+          content: "Full romantic story content here...",
+          images: [{ url: "https://picsum.photos/300/400?random=10", position: "top", caption: "Love Story" }]
+        },
+        {
+          title: "Bold Adventure",
+          desc: "An exciting adventure story",
+          content: "Adventure story content...",
+          images: [{ url: "https://picsum.photos/300/400?random=11", position: "top", caption: "Adventure" }]
         }
-      ]);
-      console.log('✅ Added sample stories');
+      ];
+      
+      const createdStories = await Story.insertMany(sampleStories);
+      console.log(`✅ Added ${createdStories.length} sample stories`);
     }
 
     const actressCount = await UlluActress.countDocuments();
     if (actressCount === 0) {
-      await UlluActress.insertMany([
+      const sampleActresses = [
         {
-          name: "Beautiful Actress",
-          desc: "Popular actress",
-          image: "https://picsum.photos/300/400?random=4",
-          images: [{ url: "https://picsum.photos/300/400?random=4", position: "top" }]
+          name: "Beautiful Actress 1",
+          desc: "Popular actress known for bold roles",
+          images: [{ url: "https://picsum.photos/300/400?random=20", position: "top", caption: "Actress 1" }]
+        },
+        {
+          name: "Hot Actress 2",
+          desc: "Rising star in web series",
+          images: [{ url: "https://picsum.photos/300/400?random=21", position: "top", caption: "Actress 2" }]
         }
-      ]);
-      console.log('✅ Added sample actresses');
+      ];
+      
+      const createdActresses = await UlluActress.insertMany(sampleActresses);
+      console.log(`✅ Added ${createdActresses.length} sample actresses`);
     }
 
     const leakCount = await DesiLeak.countDocuments();
     if (leakCount === 0) {
-      await DesiLeak.insertMany([
+      const sampleLeaks = [
         {
-          title: "Viral Content",
-          desc: "Trending content",
-          content: "Full content",
-          image: "https://picsum.photos/300/400?random=5",
-          images: [{ url: "https://picsum.photos/300/400?random=5", position: "top" }]
+          title: "Viral Leak 1",
+          desc: "Trending viral content",
+          content: "Full leak content description",
+          images: [{ url: "https://picsum.photos/300/400?random=30", position: "top", caption: "Viral 1" }]
         }
-      ]);
-      console.log('✅ Added sample desi leaks');
+      ];
+      
+      const createdLeaks = await DesiLeak.insertMany(sampleLeaks);
+      console.log(`✅ Added ${createdLeaks.length} sample desi leaks`);
     }
 
     const viralCount = await Viral.countDocuments();
     if (viralCount === 0) {
-      await Viral.insertMany([
+      const sampleViral = [
         {
-          title: "Viral Post",
-          desc: "Trending post",
-          content: "Viral content",
-          image: "https://picsum.photos/300/400?random=6",
-          images: [{ url: "https://picsum.photos/300/400?random=6", position: "top" }]
+          title: "Viral Post 1",
+          desc: "Trending viral post",
+          content: "Viral content description",
+          images: [{ url: "https://picsum.photos/300/400?random=40", position: "top", caption: "Viral Post" }]
         }
-      ]);
-      console.log('✅ Added sample viral content');
+      ];
+      
+      const createdViral = await Viral.insertMany(sampleViral);
+      console.log(`✅ Added ${createdViral.length} sample viral content`);
     }
+    
+    console.log('🎉 Sample data check completed!');
   } catch (error) {
-    console.error('❌ Error adding sample data:', error);
+    console.error('❌ Error adding sample data:', error.message);
   }
 };
 
