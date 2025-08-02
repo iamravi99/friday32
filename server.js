@@ -34,6 +34,10 @@ app.get('/', (req, res) => {
       desileaks: '/api/desileaks',
       viral: '/api/viral',
       admin: '/api/admin/login'
+    },
+    redirects: {
+      adminLogin: 'https://webflikks.onrender.com/singh/login',
+      frontend: 'https://webflikks.onrender.com'
     }
   });
 });
@@ -43,9 +47,19 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Simple admin login for now (Firebase Admin SDK not needed)
+// Admin login routes
 app.post('/api/admin/login', (req, res) => {
   res.json({ message: 'Using Firebase Auth on frontend' });
+});
+
+// Redirect /admin/login to frontend /singh/login
+app.get('/admin/login', (req, res) => {
+  res.redirect('https://webflikks.onrender.com/singh/login');
+});
+
+// Also handle /singh/login on backend
+app.get('/singh/login', (req, res) => {
+  res.redirect('https://webflikks.onrender.com/singh/login');
 });
 
 // Public routes (GET only)
